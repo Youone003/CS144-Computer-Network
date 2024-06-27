@@ -26,15 +26,14 @@ void get_URL(const string &host, const string &path) {
     TCPSocket socket{};
     //connect socket to a specified peer address
     //Address' construction function requires a socketaddr pointer #*addr and a size
-    //addr are points to a raw socket address
-    //size is addr's length
-    //TODO:how its construction funtion works?
-    //inside this construction function, it works with memcoy to 
+    //The source funtion locates at libsponge/util/address.cc
     socket.connect(Address(host,"http"));
 
-    
-    socket.write("GET "+path+" HTTP/1.1\r\nHost: "+host);
+    //The two following lines write in the head of a http request, second one has "Connection: Close", 
+    //which means close connection immediately after the server response, avoiding waste of resouces
 
+    //socket.write("GET "+path+" HTTP/1.1\r\nHost: "+host+"\r\n\r\n");
+    socket.write("GET "+path+" HTTP/1.1\r\nHost: "+host+"\r\nConnection: close\r\n\r\n");
     socket.shutdown(SHUT_WR);
 
     while(!socket.eof())
