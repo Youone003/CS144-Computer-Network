@@ -7,9 +7,9 @@
 
 using namespace std;
 
-/// @brief 
-/// @param host 
-/// @param path 
+/// @brief Apply for resources from host's path
+/// @param host host address
+/// @param path resources path
 void get_URL(const string &host, const string &path) {
     //TODO:Lab0
     // Your code here.
@@ -22,10 +22,17 @@ void get_URL(const string &host, const string &path) {
     // (not just one call to read() -- everything) until you reach
     // the "eof" (end of file).
     
+    //init socket 
     TCPSocket socket{};
-
+    //connect socket to a specified peer address
+    //Address' construction function requires a socketaddr pointer #*addr and a size
+    //addr are points to a raw socket address
+    //size is addr's length
+    //TODO:how its construction funtion works?
+    //inside this construction function, it works with memcoy to 
     socket.connect(Address(host,"http"));
 
+    
     socket.write("GET "+path+" HTTP/1.1\r\nHost: "+host);
 
     socket.shutdown(SHUT_WR);
